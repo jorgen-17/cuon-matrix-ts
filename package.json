@@ -1,0 +1,40 @@
+{
+    "name": "cuon-matrix-ts",
+    "version": "1.0.0",
+    "description": "matrix math library",
+    "main": "lib/cuon-matrix-ts.min.js",
+    "scripts": {
+        "build": "./node_modules/.bin/webpack --env build",
+        "dev": "./node_modules/.bin/webpack --progress --colors --watch --env dev",
+        "type": "./node_modules/.bin/dts-generator --name cuon-matrix-ts --project . --out lib/cuon-matrix-ts.d.ts"
+    },
+    "dependencies": {
+    },
+    "devDependencies": {
+        "dts-generator": "^2.1.0",
+        "source-map-loader": "^0.2.1",
+        "typescript": "^2.4.1",
+        "ts-loader": "^2.2.2",
+        "tslint": "^5.5.0",
+        "webpack": "^3.0.0",
+        "yargs": "^8.0.2"
+    },
+    "keywords": [
+        "matrix math",
+        "library",
+        "universal",
+        "umd",
+        "typescript",
+        "commonjs"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/typedefJorge/cuon-matrix-ts.git"
+    },
+    "author": "typedefjorge",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/typedefJorge/cuon-matrix-ts/issues"
+    },
+    "homepage": "https://github.com/typedefJorge/cuon-matrix-ts#readme"
+}

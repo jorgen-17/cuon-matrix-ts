@@ -1,0 +1,26 @@
+{
+    "version": "0.1.0",
+    "command": "${workspaceRoot}/node_modules/.bin/webpack",
+    "isShellCommand": true,
+    "args": [
+    ],
+    "echoCommand": true,
+    "tasks": [
+        {
+            "args": [
+                ""
+            ],
+            "suppressTaskName": true,
+            "taskName": "webpack dev",
+            "isBuildCommand": true
+        },
+        {
+            "args": [
+                "-p --optimize-minimize"
+            ],
+            "suppressTaskName": true,
+            "taskName": "webpack dist",
+            "isBuildCommand": false
+        }
+    ]
+}
