@@ -3,6 +3,9 @@
     "version": "1.0.0",
     "description": "matrix math library",
     "main": "lib/cuon-matrix-ts.min.js",
+    "typings": [
+        "index.d.ts"
+    ],
     "scripts": {
         "build": "./node_modules/.bin/webpack --env build",
         "dev": "./node_modules/.bin/webpack --progress --colors --watch --env dev",
