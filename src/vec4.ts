@@ -4,14 +4,14 @@ export class Vec4
 {
     public elements: Float32Array;
 
-    constructor(x: number = 0, y: number = 0, z: number = 0, w: number = 0)
+    constructor(x: number = 0, y: number = 0, z: number = 0, w: number = 1)
     {
         this.elements = new Float32Array(4);
 
         this.elements[0] = x;
         this.elements[1] = y;
         this.elements[2] = z;
-        this.elements[4] = z;
+        this.elements[3] = w;
     }
 
     public get x(): number
