@@ -3,6 +3,7 @@ declare module 'vec3' {
 	    elements: Float32Array;
 	    constructor(x?: number, y?: number, z?: number);
 	    normalize(): this;
+	    add(other: Vec3): this;
 	    x: number;
 	    y: number;
 	    z: number;
