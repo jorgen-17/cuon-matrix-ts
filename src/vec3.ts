@@ -33,6 +33,15 @@ export class Vec3
         return this;
     }
 
+    public add(other: Vec3)
+    {
+        this.x += other.x;
+        this.y += other.y;
+        this.z += other.z;
+
+        return this;
+    }
+
     public get x(): number
     {
         return this.elements[0];
