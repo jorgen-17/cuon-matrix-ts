@@ -9,6 +9,7 @@ node_modules/**/*
 !webpack.config.js
 !cuon-matrix-ts.min.js
 !cuon-matrix-ts.js
+!type-generator.js
 
 node_modules/
 *debug.log

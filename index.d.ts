@@ -55,10 +55,21 @@ declare module 'mat4' {
 	}
 
 }
+declare module 'vec2' {
+	export class Vec2 {
+	    elements: Float32Array;
+	    constructor(x?: number, y?: number);
+	    add(other: Vec2): this;
+	    x: number;
+	    y: number;
+	}
+
+}
 declare module 'cuon-matrix-ts' {
 	import { Mat4 } from 'mat4';
 	import { Vec4 } from 'vec4';
 	import { Vec3 } from 'vec3';
-	export { Mat4, Vec4, Vec3 };
+	import { Vec2 } from 'vec2';
+	export { Mat4, Vec4, Vec3, Vec2 };
 
 }

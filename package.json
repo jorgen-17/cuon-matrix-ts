@@ -1,6 +1,6 @@
 {
     "name": "cuon-matrix-ts",
-    "version": "1.0.2",
+    "version": "1.1.0",
     "description": "matrix math library",
     "main": "lib/cuon-matrix-ts.min.js",
     "typings": [
@@ -9,18 +9,18 @@
     "scripts": {
         "build": "./node_modules/.bin/webpack --env build",
         "dev": "./node_modules/.bin/webpack --progress --colors --watch --env dev",
-        "type": "./node_modules/.bin/dts-generator --name cuon-matrix-ts --project . --out ./index.d.ts"
+        "type": "node type-generator.js"
     },
     "dependencies": {
     },
     "devDependencies": {
         "dts-generator": "^2.1.0",
-        "source-map-loader": "^0.2.1",
-        "typescript": "^2.4.1",
-        "ts-loader": "^2.2.2",
-        "tslint": "^5.5.0",
-        "webpack": "^3.0.0",
-        "yargs": "^8.0.2"
+        "source-map-loader": "^0.2.2",
+        "typescript": "^2.5.3",
+        "ts-loader": "^2.3.7",
+        "tslint": "^5.7.0",
+        "webpack": "^3.7.1",
+        "yargs": "^9.0.1"
     },
     "keywords": [
         "matrix math",
