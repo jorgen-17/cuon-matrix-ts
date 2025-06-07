@@ -13,6 +13,33 @@ export class Vec3
         this.elements[2] = z;
     }
 
+    public static normalize(v: Vec3)
+    {
+        const length = Math.sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
+        if (length === 0) return new Vec3(0, 1, 0); // fallback to world up
+        return new Vec3(v.x / length, v.y / length, v.z / length);
+    }
+
+    public static add(v1: Vec3, v2: Vec3)
+    {
+        return new Vec3(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z);
+    }
+
+    public static sub(v1: Vec3, v2: Vec3)
+    {
+        return new Vec3(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z);
+    }
+
+    public static cross(v1: Vec3, v2: Vec3)
+    {
+        return new Vec3(v1.y * v2.z - v1.z * v2.y, v1.z * v2.x - v1.x * v2.z, v1.x * v2.y - v1.y * v2.x);
+    }   
+
+    public static scale(v: Vec3, scalar: number)
+    {
+        return new Vec3(v.x * scalar, v.y * scalar, v.z * scalar);
+    }
+
     public normalize()
     {
         let v = this.elements;
@@ -42,6 +69,37 @@ export class Vec3
         return this;
     }
 
+    public sub(other: Vec3)
+    {
+        this.x -= other.x;
+        this.y -= other.y;
+        this.z -= other.z;
+
+        return this;
+    }
+    
+    public cross(other: Vec3)
+    {
+        const x = this.x;
+        const y = this.y;
+        const z = this.z;
+
+        this.x = y * other.z - z * other.y;
+        this.y = z * other.x - x * other.z;
+        this.z = x * other.y - y * other.x;
+
+        return this;
+    }
+
+    public scale(scalar: number)
+    {
+        this.x *= scalar;
+        this.y *= scalar;
+        this.z *= scalar;
+
+        return this;
+    }
+    
     public get x(): number
     {
         return this.elements[0];

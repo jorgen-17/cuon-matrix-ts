@@ -2,8 +2,16 @@ declare module 'vec3' {
 	export class Vec3 {
 	    elements: Float32Array;
 	    constructor(x?: number, y?: number, z?: number);
+	    static normalize(v: Vec3): Vec3;
+	    static add(v1: Vec3, v2: Vec3): Vec3;
+	    static sub(v1: Vec3, v2: Vec3): Vec3;
+	    static cross(v1: Vec3, v2: Vec3): Vec3;
+	    static scale(v: Vec3, scalar: number): Vec3;
 	    normalize(): this;
 	    add(other: Vec3): this;
+	    sub(other: Vec3): this;
+	    cross(other: Vec3): this;
+	    scale(scalar: number): this;
 	    x: number;
 	    y: number;
 	    z: number;
@@ -51,7 +59,7 @@ declare module 'mat4' {
 	    lookAt(eyeX: any, eyeY: any, eyeZ: any, centerX: any, centerY: any, centerZ: any, upX: any, upY: any, upZ: any): this;
 	    dropShadow(plane: any, light: any): this;
 	    dropShadowDirectionally(normX: any, normY: any, normZ: any, planeX: any, planeY: any, planeZ: any, lightX: any, lightY: any, lightZ: any): this;
-	    private concat(other);
+	    private concat;
 	}
 
 }
