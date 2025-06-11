@@ -69,7 +69,7 @@ jobs:
       if: steps.version-check.outputs.version-increased == 'true'
       run: |
         CHANGES_DETECTED=false
-        
+
         # Check for lib folder changes
         if [ -d "lib" ]; then
           git add lib/
@@ -77,7 +77,7 @@ jobs:
             CHANGES_DETECTED=true
           fi
         fi
-        
+
         # Check for package-lock.json changes
         if [ -f "package-lock.json" ]; then
           git add package-lock.json
@@ -85,7 +85,15 @@ jobs:
             CHANGES_DETECTED=true
           fi
         fi
-        
+
+        # Check for index.d.ts changes
+        if [ -f "index.d.ts" ]; then
+          git add index.d.ts
+          if ! git diff --cached --quiet index.d.ts; then
+            CHANGES_DETECTED=true
+          fi
+        fi
+
         echo "changes-detected=$CHANGES_DETECTED" >> $GITHUB_OUTPUT
 
     - name: Auto commit build output changes
@@ -93,7 +101,7 @@ jobs:
       uses: stefanzweifel/git-auto-commit-action@v5
       with:
         commit_message: "Applying built changes for new version ${{ steps.current-version.outputs.version }}"
-        file_pattern: "lib/* package-lock.json"
+        file_pattern: "lib/* package-lock.json index.d.ts"
 
     - name: Get commit message
       id: commit-message

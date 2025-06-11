@@ -1,6 +1,6 @@
 {
     "name": "cuon-matrix-ts",
-    "version": "1.1.3",
+    "version": "1.1.4",
     "description": "matrix math library",
     "main": "lib/cuon-matrix-ts.min.js",
     "typings": [
