@@ -110,15 +110,7 @@ export class Vec3
     
     public cross(other: Vec3)
     {
-        const x = this.x;
-        const y = this.y;
-        const z = this.z;
-
-        this.x = y * other.z - z * other.y;
-        this.y = z * other.x - x * other.z;
-        this.z = x * other.y - y * other.x;
-
-        return this;
+        return new Vec3(this.y * other.z - this.z * other.y, this.z * other.x - this.x * other.z, this.x * other.y - this.y * other.x);
     }
 
     public scale(scalar: number)
@@ -161,6 +153,7 @@ export class Vec3
     // returns a vector that is the result of the rotation
     // Using Euler-Rodrigues Formula
     // Ref.: https://en.wikipedia.org/w/index.php?title=Euler%E2%80%93Rodrigues_formula
+    // copied from https://github.com/raysan5/raylib/blob/master/src/raymath.h#L886
     public rotate(axis: Vec3, angle: number) : Vec3
     {
         const result = new Vec3(this.x, this.y, this.z);
