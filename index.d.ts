@@ -13,7 +13,7 @@ declare module 'vec3' {
 	    normalize(): this;
 	    add(other: Vec3): this;
 	    sub(other: Vec3): this;
-	    cross(other: Vec3): this;
+	    cross(other: Vec3): Vec3;
 	    scale(scalar: number): this;
 	    dot(other: Vec3): number;
 	    angle(other: Vec3): number;
@@ -29,10 +29,24 @@ declare module 'vec4' {
 	export class Vec4 {
 	    elements: Float32Array;
 	    constructor(x?: number, y?: number, z?: number, w?: number);
+	    static add(v1: Vec4, v2: Vec4): Vec4;
+	    static sub(v1: Vec4, v2: Vec4): Vec4;
+	    static scale(v: Vec4, scalar: number): Vec4;
+	    static negate(v: Vec4): Vec4;
+	    static dot(v1: Vec4, v2: Vec4): number;
+	    static getLength(v: Vec4): number;
+	    static normalize(v: Vec4): Vec4;
 	    x: number;
 	    y: number;
 	    z: number;
 	    w: number;
+	    add(other: Vec4): this;
+	    sub(other: Vec4): this;
+	    scale(scalar: number): this;
+	    negate(): this;
+	    dot(other: Vec4): number;
+	    length(): number;
+	    normalize(): this;
 	}
 
 }
