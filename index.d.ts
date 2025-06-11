@@ -74,9 +74,24 @@ declare module 'vec2' {
 	export class Vec2 {
 	    elements: Float32Array;
 	    constructor(x?: number, y?: number);
-	    add(other: Vec2): this;
+	    static add(v1: Vec2, v2: Vec2): Vec2;
+	    static sub(v1: Vec2, v2: Vec2): Vec2;
+	    static scale(v: Vec2, scalar: number): Vec2;
+	    static negate(v: Vec2): Vec2;
+	    static cross(v1: Vec2, v2: Vec2): number;
+	    static dot(v1: Vec2, v2: Vec2): number;
+	    static getLength(v: Vec2): number;
+	    static normalize(v: Vec2): Vec2;
 	    x: number;
 	    y: number;
+	    add(other: Vec2): this;
+	    sub(other: Vec2): this;
+	    scale(scalar: number): this;
+	    negate(): this;
+	    cross(other: Vec2): number;
+	    dot(other: Vec2): number;
+	    length(): number;
+	    normalize(): this;
 	}
 
 }
