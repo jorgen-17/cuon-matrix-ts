@@ -64,27 +64,36 @@ jobs:
         echo "Previous version: $PREVIOUS"
         echo "Version increased: $RESULT"
 
-    - name: Check for lib folder changes
-      id: lib-changes
+    - name: Check for build output changes
+      id: build-changes
       if: steps.version-check.outputs.version-increased == 'true'
       run: |
+        CHANGES_DETECTED=false
+        
+        # Check for lib folder changes
         if [ -d "lib" ]; then
           git add lib/
-          if git diff --cached --quiet; then
-            echo "changes-detected=false" >> $GITHUB_OUTPUT
-          else
-            echo "changes-detected=true" >> $GITHUB_OUTPUT
+          if ! git diff --cached --quiet lib/; then
+            CHANGES_DETECTED=true
           fi
-        else
-          echo "changes-detected=false" >> $GITHUB_OUTPUT
         fi
+        
+        # Check for package-lock.json changes
+        if [ -f "package-lock.json" ]; then
+          git add package-lock.json
+          if ! git diff --cached --quiet package-lock.json; then
+            CHANGES_DETECTED=true
+          fi
+        fi
+        
+        echo "changes-detected=$CHANGES_DETECTED" >> $GITHUB_OUTPUT
 
-    - name: Auto commit lib changes
-      if: steps.version-check.outputs.version-increased == 'true' && steps.lib-changes.outputs.changes-detected == 'true'
+    - name: Auto commit build output changes
+      if: steps.version-check.outputs.version-increased == 'true' && steps.build-changes.outputs.changes-detected == 'true'
       uses: stefanzweifel/git-auto-commit-action@v5
       with:
         commit_message: "Applying built changes for new version ${{ steps.current-version.outputs.version }}"
-        file_pattern: "lib/*"
+        file_pattern: "lib/* package-lock.json"
 
     - name: Get commit message
       id: commit-message
