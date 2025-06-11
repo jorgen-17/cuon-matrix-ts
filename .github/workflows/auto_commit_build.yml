@@ -29,6 +29,10 @@ jobs:
         npm install
         npm run build
 
+    - name: Build unminified
+      run: |
+        npm run dev
+
     - name: Type
       run: |
         npm run type
