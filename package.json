@@ -1,6 +1,6 @@
 {
     "name": "cuon-matrix-ts",
-    "version": "1.1.6",
+    "version": "1.1.7",
     "description": "matrix math library",
     "main": "lib/cuon-matrix-ts.min.js",
     "typings": [
@@ -8,7 +8,8 @@
     ],
     "scripts": {
         "build": "npx webpack --env build",
-        "dev": "npx webpack --progress --colors --watch --env dev",
+        "dev": "npx webpack --progress --colors --env dev",
+        "watch": "npx webpack --progress --colors --watch --env dev",
         "type": "node type-generator.js"
     },
     "dependencies": {
