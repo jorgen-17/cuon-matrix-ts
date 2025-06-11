@@ -1,0 +1,108 @@
+name: NodeJS with Webpack
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [24.x]
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Fetch full history to compare versions
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Build
+      run: |
+        npm install
+        npm run build
+
+    - name: Test
+      run: |
+        npm run ci-test
+
+    - name: Type
+      run: |
+        npm run type
+
+    - name: Get current version
+      id: current-version
+      run: echo "version=$(jq -r .version package.json)" >> $GITHUB_OUTPUT
+
+    - name: Get previous version
+      id: previous-version
+      run: |
+        git checkout HEAD~1 -- package.json 2>/dev/null || echo "No previous commit"
+        PREV_VERSION=$(jq -r .version package.json 2>/dev/null || echo "0.0.0")
+        git checkout HEAD -- package.json
+        echo "version=$PREV_VERSION" >> $GITHUB_OUTPUT
+
+    - name: Compare versions
+      id: version-check
+      run: |
+        CURRENT="${{ steps.current-version.outputs.version }}"
+        PREVIOUS="${{ steps.previous-version.outputs.version }}"
+
+        # Use node to compare semantic versions
+        RESULT=$(node -e "
+          const semver = require('semver');
+          const current = '$CURRENT';
+          const previous = '$PREVIOUS';
+          console.log(semver.gt(current, previous) ? 'true' : 'false');
+        ")
+
+        echo "version-increased=$RESULT" >> $GITHUB_OUTPUT
+        echo "Current version: $CURRENT"
+        echo "Previous version: $PREVIOUS"
+        echo "Version increased: $RESULT"
+
+    - name: Check for lib folder changes
+      id: lib-changes
+      if: steps.version-check.outputs.version-increased == 'true'
+      run: |
+        if [ -d "lib" ]; then
+          git add lib/
+          if git diff --cached --quiet; then
+            echo "changes-detected=false" >> $GITHUB_OUTPUT
+          else
+            echo "changes-detected=true" >> $GITHUB_OUTPUT
+          fi
+        else
+          echo "changes-detected=false" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Auto commit lib changes
+      if: steps.version-check.outputs.version-increased == 'true' && steps.lib-changes.outputs.changes-detected == 'true'
+      uses: stefanzweifel/git-auto-commit-action@v5
+      with:
+        commit_message: "Applying built changes for new version ${{ steps.current-version.outputs.version }}"
+        file_pattern: "lib/*"
+
+    - name: Get commit message
+      id: commit-message
+      if: steps.version-check.outputs.version-increased == 'true'
+      run: |
+        COMMIT_MSG=$(git log -1 --pretty=%B)
+        echo "message<<EOF" >> $GITHUB_OUTPUT
+        echo "$COMMIT_MSG" >> $GITHUB_OUTPUT
+        echo "EOF" >> $GITHUB_OUTPUT
+
+    - name: Create version tag
+      if: steps.version-check.outputs.version-increased == 'true'
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+        git tag -a "v${{ steps.current-version.outputs.version }}" -m "v${{ steps.current-version.outputs.version }}: ${{ steps.commit-message.outputs.message }}"
+        git push origin "v${{ steps.current-version.outputs.version }}"
