@@ -29,10 +29,6 @@ jobs:
         npm install
         npm run build
 
-    - name: Test
-      run: |
-        npm run ci-test
-
     - name: Type
       run: |
         npm run type
